@@ -9,5 +9,5 @@ fn find_ace_high(arr: &[i32]) -> Option<(i32, [i32; 2], [(i32, String); 2])> {
 fn main() {
 	let x = find_ace_high(&[1, 2, 3]);
 	let x_unpacked = x.unwrap();
-	println!("{}", x_unpacked.1[0]);
+	println!("{}{}", x_unpacked.2[0].0, x_unpacked.2[0].1);
 }
