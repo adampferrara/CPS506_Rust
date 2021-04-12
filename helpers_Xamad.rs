@@ -1,4 +1,4 @@
-fn find_ace_high(arr: &[(i32, &str)]) -> Option<(i32, [i32; 2], [(i32, &'static str); 2])> {
+fn find_ace_high(arr: &[(u32, &str)]) -> Option<(u32, [u32; 2], [(u32, &'static str); 2])> {
 	match arr {
 		[ (1, s1), .. ] => Some((1, [1, 0], [(1, s1), (3, "C")])),
 		[ _a, .. ] => Some((1, [2, 0], [(3, "C"), (5, "S")])),
@@ -7,7 +7,7 @@ fn find_ace_high(arr: &[(i32, &str)]) -> Option<(i32, [i32; 2], [(i32, &'static 
 }
 
 /*
-fn deal(&[c1, c2, c3, c4, c5, c6, c7, c8, c9]: &[i32, i32, i32, i32, i32, i32, i32, i32, i32]) -> &[&str] {
+fn deal(&[c1, c2, c3, c4, c5, c6, c7, c8, c9]: &[u32, u32, u32, u32, u32, u32, u32, u32, u32]) -> &[&str] {
 	let mut hand_a = [c1, c3, c5, c6, c7, c8, c9];
 	hand_a.sort();
 	hand_a.reverse();
