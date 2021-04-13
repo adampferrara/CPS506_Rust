@@ -2,16 +2,16 @@ fn find_straight(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u32, S
 	match &*hand {
 		[.. (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5), _, _] if ((*x1 - *x2) == 1) &&
 			((*x2 - *x3) == 1) && ((*x3 - *x4) == 1) && ((*x4 - *x5) == 1) => 
-			Some((5, [*x1, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((5, [*x1, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5), _] if ((*x1 - *x2) == 1) &&
 			((*x2 - *x3) == 1) && ((*x3 - *x4) == 1) && ((*x4 - *x5) == 1) => 
-			Some((5, [*x1, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((5, [*x1, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)] if ((*x1 - *x2) == 1) &&
 			((*x2 - *x3) == 1) && ((*x3 - *x4) == 1) && ((*x4 - *x5) == 1) => 
-			Some((5, [*x1, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((5, [*x1, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		_ => None,
 	}
 }
@@ -20,20 +20,20 @@ fn find_three_of_kind(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u
 	match &*hand {
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)]
 			if (*x3 == *x4) && (*x3 == *x5) && (*x3 == 1) => 
-			Some((4, [14, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((4, [14, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)]
 			if (*x1 == *x2) && (*x1 == *x3) => 
-			Some((4, [*x1, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((4, [*x1, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)]
 			if (*x2 == *x3) && (*x2 == *x4) => 
-			Some((4, [*x2, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((4, [*x2, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)]
 			if (*x3 == *x4) && (*x3 == *x5) => 
-			Some((4, [*x3, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((4, [*x3, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		_ => None,
 	}
 }
@@ -42,48 +42,48 @@ fn find_two_pair(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u32, S
 	match &*hand {
 		[(x1, s1), (x2, s2), .., (x3, s3), (x4, s4), (x5, s5)]
 			if (*x1 == *x2) && (*x4 == *x5) && (*x4 == 1) => 
-			Some((3, [14, *x1], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((3, [14, *x1], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)]
 			if (*x2 == *x3) && (*x4 == *x5) && (*x4 == 1) => 
-			Some((3, [14, *x2], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((3, [14, *x2], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)]
 			if (*x1 == *x2) && (*x3 == *x4) => 
-			Some((3, [*x1, *x3], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((3, [*x1, *x3], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)]
 			if (*x1 == *x2) && (*x4 == *x5) => 
-			Some((3, [*x1, *x4], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((3, [*x1, *x4], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)]
 			if (*x2 == *x3) && (*x4 == *x5) => 
-			Some((3, [*x2, *x4], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((3, [*x2, *x4], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), _, (x3, s3), (x4, s4), (x5, s5)]
 			if (*x1 == *x2) && (*x3 == *x4) => 
-			Some((3, [*x1, *x3], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((3, [*x1, *x3], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), _, (x3, s3), (x4, s4), (x5, s5)]
 			if (*x1 == *x2) && (*x4 == *x5) => 
-			Some((3, [*x1, *x4], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((3, [*x1, *x4], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), _, (x3, s3), (x4, s4), (x5, s5)]
 			if (*x2 == *x3) && (*x4 == *x5) => 
-			Some((3, [*x2, *x4], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((3, [*x2, *x4], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), _, _, (x3, s3), (x4, s4), (x5, s5)]
 			if (*x1 == *x2) && (*x3 == *x4) => 
-			Some((3, [*x1, *x3], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((3, [*x1, *x3], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), _, _, (x3, s3), (x4, s4), (x5, s5)]
 			if (*x1 == *x2) && (*x4 == *x5) => 
-			Some((3, [*x1, *x4], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((3, [*x1, *x4], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), _, _, (x3, s3), (x4, s4), (x5, s5)]
 			if (*x2 == *x3) && (*x4 == *x5) => 
-			Some((3, [*x2, *x4], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((3, [*x2, *x4], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		_ => None,
 	}
 }
@@ -91,20 +91,20 @@ fn find_two_pair(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u32, S
 fn find_pair(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u32, String)>)> {
 	match &*hand {
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)] if (*x5 == *x4) && (*x5 == 1) => 
-			Some((2, [14, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((2, [14, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)] if *x1 == *x2 => 
-			Some((2, [*x1, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((2, [*x1, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)] if *x2 == *x3 => 
-			Some((2, [*x2, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((2, [*x2, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)] if *x3 == *x4 => 
-			Some((2, [*x3, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((2, [*x3, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)] if *x4 == *x5 => 
-			Some((2, [*x4, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((2, [*x4, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		_ => None,
 	}
 }
@@ -112,8 +112,8 @@ fn find_pair(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u32, Strin
 fn find_ace_high(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u32, String)>)> {
 	match &*hand {
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)] if *x5 == 1 => 
-			Some((1, [*x5, 0], vec![(*x1, String::from(s1)), (*x2, String::from(s2)),
-				 (*x3, String::from(s3)), (*x4, String::from(s4)), (*x5, String::from(s5))])),
+			Some((1, [*x5, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		_ => None,
 	}
 }
@@ -142,12 +142,3 @@ pub fn deal(perm: [u32; 9]) -> Vec<String> {
 	};
 }
 */
-
-fn main() {
-	let x = Vec::new();
-	x.push((1, "C"));
-	x.push((2, "H"));
-	let y = find_ace_high(&x);
-	let y_unpacked = y.unwrap();
-	println!("{}{}", y_unpacked.2[0].0, y_unpacked.2[0].1);
-}
