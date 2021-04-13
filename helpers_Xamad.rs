@@ -1,6 +1,10 @@
 fn find_straight(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u32, String)>)> {
 	match &*hand {
-		[.. (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5), _, _] if ((*x1 - *x2) == 1) &&
+		[(x1, s1), (x2, s2), (x3, s3), (x4, s4), .. , (x5, s5)]
+			if ((*x1 - *x2) == 1) && ((*x2 - *x3) == 1) && ((*x3 - *x4) == 1) && (*x5 == 1) => 
+			Some((5, [*14, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
+		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5), _, _] if ((*x1 - *x2) == 1) &&
 			((*x2 - *x3) == 1) && ((*x3 - *x4) == 1) && ((*x4 - *x5) == 1) => 
 			Some((5, [*x1, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
 				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
