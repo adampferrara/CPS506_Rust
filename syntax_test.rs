@@ -7,12 +7,12 @@ fn main() {
 	
 	let y = match &*hand_a {
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)] if x5 == &1 => 
-			Some(vec![(x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)]),
+			Some((1, [1, 0], vec![(x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)])),
 		_ => None,
 	};
 	
 	println!("{:?}", &hand_a);
-	println!("{}", (vec![10, 13] > vec![10, 2]));
 	let y_unpacked = y.unwrap();
-	println!("{}{}", y_unpacked[0].0, y_unpacked[0].1);
+	println!("{}, {}, Card 1: {}{}",
+			 y_unpacked.0, (y_unpacked.1 > [0, 0]), y_unpacked.2[0].0, y_unpacked.2[0].1);
 }
