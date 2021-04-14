@@ -48,6 +48,10 @@ fn find_two_pair(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u32, S
 			if (*x1 == *x2) && (*x4 == *x5) && (*x4 == 1) => 
 			Some((3, [14, *x1], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
 				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
+		[.., (x1, s1), (x2, s2), _, (x3, s3), (x4, s4), (x5, s5)]
+			if (*x2 == *x3) && (*x4 == *x5) && (*x4 == 1) => 
+			Some((3, [14, *x2], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5)]
 			if (*x2 == *x3) && (*x4 == *x5) && (*x4 == 1) => 
 			Some((3, [14, *x2], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
@@ -138,10 +142,10 @@ pub fn deal(perm: [u32; 9]) -> Vec<String> {
 	let best_b = best_hand(hand_b);
 	
 	let winner = match best_a {
-		x if x.0 > best_b.0 => best_a.2,
-		x if x.0 < best_b.] => best_b.2,
-		x if (x.0 == best_b.0) && (x.1 > best_b.1) => best_a.2
+		x if x.0 < best_b.0 => best_b.2,
+		x if x.0 > best_b.] => best_a.2,
 		x if (x.0 == best_b.0) && (x.1 < best_b.1) => best_b.2
+		x if (x.0 == best_b.0) && (x.1 > best_b.1) => best_a.2
 		_ => best_a.2,
 	};
 }
