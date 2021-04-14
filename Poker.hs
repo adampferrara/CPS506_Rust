@@ -44,10 +44,10 @@ module Poker where
 		bestB = bestHand handB
 		
 		winner
-			| getFst bestA <= getFst bestB = getThd bestB
-			| getFst bestA >= getFst bestB = getThd bestA
-			| getFst bestA == getFst bestB && getSnd bestA <= getSnd bestB = getThd bestB
-			| getFst bestA == getFst bestB && getSnd bestA >= getSnd bestB = getThd bestA
+			| getFst bestA < getFst bestB = getThd bestB
+			| getFst bestA > getFst bestB = getThd bestA
+			| getFst bestA == getFst bestB && getSnd bestA < getSnd bestB = getThd bestB
+			| getFst bestA == getFst bestB && getSnd bestA > getSnd bestB = getThd bestA
 			| otherwise = getThd bestA
 		
 		w1 = winner!!0
@@ -128,6 +128,9 @@ module Poker where
 	
 	findFourOfKind :: [ (Int, String) ] -> Maybe ( Int, [Int], [ (Int, String) ] )
 	findFourOfKind [] = Nothing
+	findFourOfKind (_:_:(x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
+		| x2 == 1 && x3 == 1 && x4 == 1 && x5 == 1
+		= Just ( 8, [14], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 	findFourOfKind ((x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
 		| x1 == x2 && x1 == x3 && x1 == x4
 		= Just ( 8, [x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
@@ -137,6 +140,24 @@ module Poker where
 	
 	findFullHouse :: [ (Int, String) ] -> Maybe ( Int, [Int], [ (Int, String) ] )
 	findFullHouse [] = Nothing
+	findFullHouse ((x1, s1):(x2, s2):_:_:(x3, s3):(x4, s4):(x5, s5):_)
+		| x1 == x2 && x3 == 1 && x4 == 1 && x5 == 1
+		= Just ( 7, [14, x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+	findFullHouse (_:(x1, s1):(x2, s2):_:(x3, s3):(x4, s4):(x5, s5):_)
+		| x1 == x2 && x3 == 1 && x4 == 1 && x5 == 1
+		= Just ( 7, [14, x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+	findFullHouse (_:_:(x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
+		| x1 == x2 && x3 == 1 && x4 == 1 && x5 == 1
+		= Just ( 7, [14, x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+	findFullHouse ((x1, s1):(x2, s2):(x3, s3):_:_:(x4, s4):(x5, s5):_)
+		| x1 == x2 && x1 == x3 && x4 == 1 && x5 == 1
+		= Just ( 7, [x1, 14], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+	findFullHouse (_:(x1, s1):(x2, s2):(x3, s3):_:(x4, s4):(x5, s5):_)
+		| x1 == x2 && x1 == x3 && x4 == 1 && x5 == 1
+		= Just ( 7, [x1, 14], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+	findFullHouse (_:_:(x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
+		| x1 == x2 && x1 == x3 && x4 == 1 && x5 == 1
+		= Just ( 7, [x1, 14], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 	findFullHouse ((x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
 		| x1 == x2 && x1 == x3 && x4 == x5
 		= Just ( 7, [x1, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
@@ -164,8 +185,12 @@ module Poker where
 		= Just ( 7, [x3, x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 	findFullHouse (_:xs) = findFullHouse xs
 	
+	-- Currently lacks Ace-high testers
 	findFlush :: [ (Int, String) ] -> Maybe ( Int, [Int], [ (Int, String) ] )
 	findFlush [] = Nothing
+	findFlush ((x1, s1):_:(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
+		| s1 == s2 && s1 == s3 && s1 == s4 && s1 == s5
+		= Just ( 6, [x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 	findFlush ((x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
 		| s1 == s2 && s1 == s3 && s1 == s4 && s1 == s5
 		= Just ( 6, [x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
@@ -173,6 +198,9 @@ module Poker where
 	
 	findStraight :: [ (Int, String) ] -> Maybe ( Int, [Int], [ (Int, String) ] )
 	findStraight [] = Nothing
+	findStraight ((x1, s1):(x2, s2):(x3, s3):(x4, s4):_:_:(x5, s5):_)
+		| x1 == x2 + 1 && x2 == x3 + 1 && x3 == x4 + 1 && x5 == 1
+		= Just ( 5, [14], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 	findStraight ((x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
 		| x1 == x2 + 1 && x2 == x3 + 1 && x3 == x4 + 1 && x4 == x5 + 1
 		= Just ( 5, [x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
@@ -180,7 +208,12 @@ module Poker where
 	
 	findThreeOfKind :: [ (Int, String) ] -> Maybe ( Int, [Int], [ (Int, String) ] )
 	findThreeOfKind [] = Nothing
+	findThreeOfKind ((x1, s1):(x2, s2):_:_:(x3, s3):(x4, s4):(x5, s5):_)
+		| x3 == x4 && x3 == x5 && x3 == 1
+		= Just ( 4, [14], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 	findThreeOfKind ((x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
+		| x3 == x4 && x3 == x5 && x3 == 1
+		= Just ( 4, [14], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 		| x1 == x2 && x1 == x3 = Just ( 4, [x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 		| x2 == x3 && x2 == x4 = Just ( 4, [x2], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 		| x3 == x4 && x3 == x5 = Just ( 4, [x3], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
@@ -188,22 +221,44 @@ module Poker where
 	
 	findTwoPair :: [ (Int, String) ] -> Maybe ( Int, [Int], [ (Int, String) ] )
 	findTwoPair [] = Nothing
-	findTwoPair ((x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
-		| x1 == x2 && x3 == x4 = Just ( 3, [x1, x3], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
-		| x1 == x2 && x4 == x5 = Just ( 3, [x1, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
-		| x2 == x3 && x4 == x5 = Just ( 3, [x2, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
-	findTwoPair ((x1, s1):(x2, s2):_:(x3, s3):(x4, s4):(x5, s5):_)
-		| x1 == x2 && x3 == x4 = Just ( 3, [x1, x3], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
-		| x1 == x2 && x4 == x5 = Just ( 3, [x1, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
-		| x2 == x3 && x4 == x5 = Just ( 3, [x2, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 	findTwoPair ((x1, s1):(x2, s2):_:_:(x3, s3):(x4, s4):(x5, s5):_)
-		| x1 == x2 && x3 == x4 = Just ( 3, [x1, x3], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
-		| x1 == x2 && x4 == x5 = Just ( 3, [x1, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
-		| x2 == x3 && x4 == x5 = Just ( 3, [x2, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+		| x1 == x2 && x4 == x5 && x4 == 1
+		= Just ( 3, [14, x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+	findTwoPair (_:(x1, s1):(x2, s2):_:(x3, s3):(x4, s4):(x5, s5):_)
+		| x1 == x2 && x4 == x5 && x4 == 1
+		= Just ( 3, [14, x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+	findTwoPair (_:_:(x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
+		| x1 == x2 && x4 == x5 && x4 == 1
+		= Just ( 3, [14, x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+		| x2 == x3 && x4 == x5 && x4 == 1
+		= Just ( 3, [14, x2], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+	findTwoPair ((x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
+		| x1 == x2 && x3 == x4
+		= Just ( 3, [x1, x3], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+		| x1 == x2 && x4 == x5
+		= Just ( 3, [x1, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+		| x2 == x3 && x4 == x5
+		= Just ( 3, [x2, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+	findTwoPair ((x1, s1):(x2, s2):_:(x3, s3):(x4, s4):(x5, s5):_)
+		| x1 == x2 && x3 == x4
+		= Just ( 3, [x1, x3], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+		| x1 == x2 && x4 == x5
+		= Just ( 3, [x1, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+		| x2 == x3 && x4 == x5
+		= Just ( 3, [x2, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+	findTwoPair ((x1, s1):(x2, s2):_:_:(x3, s3):(x4, s4):(x5, s5):_)
+		| x1 == x2 && x3 == x4
+		= Just ( 3, [x1, x3], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+		| x1 == x2 && x4 == x5
+		= Just ( 3, [x1, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
+		| x2 == x3 && x4 == x5
+		= Just ( 3, [x2, x4], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 	findTwoPair (_:xs) = findTwoPair xs
 	
 	findPair :: [ (Int, String) ] -> Maybe ( Int, [Int], [ (Int, String) ] )
 	findPair [] = Nothing
+	findPair ((x1, s1):(x2, s2):(x3, s3):_:_:(x4, s4):(x5, s5):_)
+		| x4 == x5 && x4 == 1 = Just ( 2, [14], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 	findPair ((x1, s1):(x2, s2):(x3, s3):(x4, s4):(x5, s5):_)
 		| x1 == x2 = Just ( 2, [x1], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
 		| x2 == x3 = Just ( 2, [x2], ((x5, s5):(x4, s4):(x3, s3):(x2, s2):(x1, s1):[]) )
