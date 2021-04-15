@@ -1,8 +1,41 @@
+pub fn deal(perm: [u32; 9]) -> Vec<String> {
+	let mut hand_a = vec![convert(perm[0]), convert(perm[2]), convert(perm[4].clone()),
+						  convert(perm[5].clone()), convert(perm[6].clone()),
+						  convert(perm[7].clone()), convert(perm[8].clone())];
+	hand_a.sort();
+	hand_a.reverse();
+	
+	let mut hand_b = vec![convert(perm[1]), convert(perm[3]), convert(perm[4].clone()),
+						  convert(perm[5].clone()), convert(perm[6].clone()),
+						  convert(perm[7].clone()), convert(perm[8].clone())];
+	hand_b.sort();
+	hand_b.reverse();
+	
+	let best_a = best_hand(hand_a);
+	let best_b = best_hand(hand_b);
+	
+	let winner = match best_a {
+		x if x.0 < best_b.0 => best_b.2,
+		x if x.0 > best_b.0 => best_a.2,
+		x if (x.0 == best_b.0) && (x.1 < best_b.1) => best_b.2
+		x if (x.0 == best_b.0) && (x.1 > best_b.1) => best_a.2
+		_ => best_a.2,
+	};
+	
+	let mut win_final = Vec::new();
+	win_final.push(format!("{}{}", winner[0].0, winner[0].1));
+	win_final.push(format!("{}{}", winner[1].0, winner[1].1));
+	win_final.push(format!("{}{}", winner[2].0, winner[2].1));
+	win_final.push(format!("{}{}", winner[3].0, winner[3].1));
+	win_final.push(format!("{}{}", winner[4].0, winner[4].1));
+	return win_final;
+}
+
 fn find_straight(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u32, String)>)> {
 	match &*hand {
 		[(x1, s1), (x2, s2), (x3, s3), (x4, s4), .. , (x5, s5)]
 			if ((*x1 - *x2) == 1) && ((*x2 - *x3) == 1) && ((*x3 - *x4) == 1) && (*x5 == 1) => 
-			Some((5, [*14, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
+			Some((5, [14, 0], vec![(*x5, String::from(s5)), (*x4, String::from(s4)),
 				 (*x3, String::from(s3)), (*x2, String::from(s2)), (*x1, String::from(s1))])),
 		[.., (x1, s1), (x2, s2), (x3, s3), (x4, s4), (x5, s5), _, _] if ((*x1 - *x2) == 1) &&
 			((*x2 - *x3) == 1) && ((*x3 - *x4) == 1) && ((*x4 - *x5) == 1) => 
@@ -125,28 +158,3 @@ fn find_ace_high(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u32, S
 		_ => None,
 	}
 }
-
-/*
-pub fn deal(perm: [u32; 9]) -> Vec<String> {
-	let mut hand_a = vec![perm[0], perm[2], perm[4].clone(), perm[5].clone(), perm[6].clone(),
-						  perm[7].clone(), perm[8].clone()];
-	hand_a.sort();
-	hand_a.reverse();
-	
-	let mut hand_b = vec![perm[1], perm[3], perm[4].clone(), perm[5].clone(), perm[6].clone(),
-						  perm[7].clone(), perm[8].clone()];
-	hand_b.sort();
-	hand_b.reverse();
-	
-	let best_a = best_hand(hand_a);
-	let best_b = best_hand(hand_b);
-	
-	let winner = match best_a {
-		x if x.0 < best_b.0 => best_b.2,
-		x if x.0 > best_b.] => best_a.2,
-		x if (x.0 == best_b.0) && (x.1 < best_b.1) => best_b.2
-		x if (x.0 == best_b.0) && (x.1 > best_b.1) => best_a.2
-		_ => best_a.2,
-	};
-}
-*/
