@@ -1,3 +1,9 @@
+/* Team members:
+	Adam Ferrara - 500695876
+	Gawsee Kalanithy - 500747521
+*/
+
+/*
 pub fn deal(perm: [u32; 9]) -> Vec<String> {
 	let mut hand_a = vec![convert(perm[0]), convert(perm[2]), convert(perm[4].clone()),
 						  convert(perm[5].clone()), convert(perm[6].clone()),
@@ -29,7 +35,7 @@ pub fn deal(perm: [u32; 9]) -> Vec<String> {
 	win_final.push(format!("{}{}", winner[3].0, winner[3].1));
 	win_final.push(format!("{}{}", winner[4].0, winner[4].1));
 	return win_final;
-}
+}*/
 
 fn find_straight(hand: Vec<(u32, String)>) -> Option<(u32, [u32; 2], Vec<(u32, String)>)> {
 	match &*hand {
