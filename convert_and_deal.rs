@@ -21,3 +21,35 @@ fn best_hand(hand: Vec<(u32, String)>) -> (u32, [u32; 2], Vec<(u32, String)>) {
         if (find_ace_high(*hand).is_none()) = (find_ace_high(*hand).unwrap())
         
 }
+
+fn convert(i) -> (u32, String){
+    if (i <= 13) 
+        let i = (i,"C")
+    if ((i > 13) && (i<= 26)) 
+        let i = (i - 13, "D")
+    if ((i > 26) && (i<= 39)) 
+        let i = (i - 26, "H")
+    else 
+        let i = (i - 39,"S")
+}
+    
+fn get_fst((u32,u32)->(u32)){
+    match &*hand{
+        [a,b,c]
+            let (*a,..,..) = *a
+    }
+}
+    
+fn get_snd((u32,u32)->(u32)){
+    match &*hand{
+        [a,b,c]
+            let (..,*b,..) = *b
+    }
+}
+    
+fn get_thd((u32,u32)->(u32)){
+    match &*hand{
+        [a,b,c]
+            let (..,..,*c) = *c
+    }
+}
